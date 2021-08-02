@@ -143,14 +143,15 @@ a:active {
     font-family: var(--nav-item-font-family);
     font-weight: var(--nav-item-font-weight);
     font-size: var(--nav-item-font-size);
-    kerning: var(--nav-item-letter-spacing);
+    letter-spacing: var(--nav-item-letter-spacing);
     display: var(--nav-item-display);
     margin: var(--nav-item-margin);
 }
 
 .nav .nav-link {
     display: block;
-    padding: 50% 100%;
+    padding-top: 50%;
+    padding-bottom: 50%;
 }
 
 .nav .nav-link:hover {
