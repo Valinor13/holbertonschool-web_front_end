@@ -189,7 +189,7 @@ ul.row {
 }
 
 .row::after {
-    content-visibility: hidden;
+    content: hidden;
     display: table;
     clear: both;
 }
