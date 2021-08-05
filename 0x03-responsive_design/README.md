@@ -1,0 +1,1 @@
+This is the responsive design project located in the Holberton web front end repository.
