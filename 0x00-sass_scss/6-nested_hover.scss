@@ -1,5 +1,8 @@
+$btc: #FF0000;
+$hc: #00FF00;
+
 button {
-    color: #FF0000; 
+    color: $btc; 
     &:hover {
-      color: #00FF00; }
+      color: $hc; }
     }
