@@ -3,6 +3,6 @@ $hc: #00FF00;
 
 button {
     color: $btc; 
-    &:hover {
+    & :hover {
       color: $hc; }
     }
