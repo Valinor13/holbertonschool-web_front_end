@@ -2,7 +2,7 @@
 When the user hovers over button tags, text color should change to #00FF00 */
 
 button {
-    color: #FF0000; 
+    color: red; 
     &:hover {
       color: #00FF00; }
   }
