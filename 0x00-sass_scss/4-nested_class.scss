@@ -1,4 +1,8 @@
+$btc: #3D3D3D;
+$rtc: #FF0000;
+
 body {
-    color: #3D3D3D; }
+    color: $btc; 
     & .red {
-      color: #FF0000; }
+      color: $rtc; }
+    }
