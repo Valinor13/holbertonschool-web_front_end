@@ -3,6 +3,8 @@ function countPrimeNumbers() {
 }
 
 const timeLog0 = performance.now();
-countPrimeNumbers();
+for (let i = 0; i < 100; i++){
+    countPrimeNumbers();
+}
 const timeLog1 = performance.now();
 console.log(`Execution time of printing countPrimeNumbers was ${timeLog1 - timeLog0} milliseconds.`);
