@@ -1,0 +1,1 @@
+This is the advanced JQuery project located in the Holberton web front end repository.
