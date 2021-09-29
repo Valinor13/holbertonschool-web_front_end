@@ -11,24 +11,26 @@
             });
 
             function createFamilyTree() {
-                let firstNames = ["Guillaume", "Paulette", "Antoine"]
-                const lastName = "Salva";
-                let table = $('<table>');
-                let row1 = $('<tr>');
-                table.append(row1);
-                let head1 = $('<th>').text("Firstname");
-                let head2 = $('<th>').text("Lastname");
-                row1.append(head1);
-                row1.append(head2);
-                for (i=0; i<3; i++) {
-                    let row2 = $('<tr>');
-                    let col1 = $('<td>').text(firstNames[i]);
-                    let col2 = $('<td>').text(lastName);
-                    row2.append(col1);
-                    row2.append(col2);
-                    table.append(row2);
-                }
-                $("body").append(table);
+                $("body").append("<table>" +
+                                    "<thead>" +
+                                        "<th>Firstname</th>" +
+                                        "<th>Lastname</th>" +
+                                    "</thead>" +
+                                    "<tbody>" +
+                                        "<tr>" +
+                                            "<td>Guillaume</td>" +
+                                            "<td>Salva</td>" +
+                                        "</tr>" +
+                                        "<tr>" +
+                                            "<td>Paulette</td>" +
+                                            "<td>Salva</td>" +
+                                        "</tr>" +
+                                        "<tr>" +
+                                            "<td>Antoine</td>" +
+                                            "<td>Salva</td>" +
+                                        "</tr>" +
+                                    "</tbody>" +
+                                 "</table>");
             }
         </script>
         <title>Task 0</title>
