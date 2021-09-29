@@ -8,24 +8,32 @@
         <script type="application/javascript">
             $(document).ready(function() {
                 createFamilyTree();
-                replaceFamilyTree();
+                addNewMember('Guilluame', 'Salva');
+                addNewMember('Arielle', 'Snizt');
+                addNewMember('Fanette', 'Snizt');
+                addNewMember('Gerard', 'Snizt');
+                addNewMember('Victor', 'Salva');
             });
 
             function createFamilyTree() {
                 const firstNames = ["Guillaume", "Paulette", "Antoine"]
                 const lastName = "Salva";
                 let table = $('<table>');
-                let tBody = $('<tbody>');
                 $("body").append(table);
                 table.append($('<thead>').append($('<th>').text("Firstname"), $('<th>').text("Lastname")));
-                table.append(tBody);
-                for (i=0; i<3; i++) {
-                    tBody.append($('<tr>').append($('<td>').text(firstNames[i]), $('<td>').text(lastName)));
-                }
+                table.append($('<tbody>'));
             }
 
-            function replaceFamilyTree() {
-                $("tbody").replaceWith("<tbody><tr><td>Gerard</td><td>Bonissa</td></tr></tbody>")
+            function addNewMember(firstName, lastName) {
+                let row = $('<tr>');
+                let toggleX = $('<td>');
+                $('tbody').append(row);
+                $(row).append(`<td>${firstName}</td>`);
+                $(row).append(`<td>${lastName}</td>`);
+                $(row).append(toggleX);
+                $(toggleX).text('(x)').css({'background-color':'orange'}).click(function(){
+                    $(row).hide();
+                });    
             }
         </script>
         <title>Task 0</title>
