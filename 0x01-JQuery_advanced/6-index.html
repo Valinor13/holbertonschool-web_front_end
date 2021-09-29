@@ -38,7 +38,11 @@
             }
 
             function createForm() {
-                $("body").before($('<input id="firstName" type="text">'), $('<input id="lastName" type="text">'), $('<select>').append('<option value="before">Before</option><option value="after">After</option>'), $('<input type="submit">').click(addNewMember($('input#firstName').val(), $('input#lastName').val(), $('select').val())));
+                $("table").before($('<input id="firstName" type="text">'), $('<input id="lastName" type="text">'), $('<select id="selector">'), $('<input type="submit" id="submitBtn">'));
+                $('#selector').prepend('<option value="after">After</option><option value="before">Before</option>')
+                $('#submitBtn').click(function() {
+                    addNewMember($(`input#firstName`).val(), $('input#lastName').val(), $('#selector').val());
+                });
             }
         </script>
         <title>Task 0</title>
