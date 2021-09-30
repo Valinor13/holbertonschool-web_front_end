@@ -25,6 +25,7 @@
 
             function queryWikepedia(search, offset = 0) {
                 $('#articles').html('');
+                displayLoading(true);
                 $.ajax({
                     url: `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${search}&format=json`,
                     dataType: "jsonp",
@@ -37,6 +38,7 @@
                                 buildPagination(data.query.searchinfo.totalhits, 10, offset);
                             }
                 });
+                displayLoading(false);
             }
 
             function buildPagination(numberOfItems, itemsPerPage, currentOffset) {
@@ -58,9 +60,21 @@
                     queryWikepedia($('input').first().val(), $(this).val());
                 })
             }
+
+            function displayLoading(loading) {
+                if (loading) {
+                    $('ul').wrap(`<div class="loading"></div>`);
+                } else {
+                    $('ul').unwrap();
+                }
+            }
         </script>
         <title>Task 9</title>
-
+        <style type="text/css">
+            .loading {
+                opacity: 0.2;
+            }
+        </style>
     </head>
 
     <body>
