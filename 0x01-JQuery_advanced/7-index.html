@@ -24,6 +24,7 @@
             }
 
             function queryWikepedia(search) {
+                $('#articles').html('');
                 $.ajax({
                     url: `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${search}&format=json`,
                     dataType: "jsonp",

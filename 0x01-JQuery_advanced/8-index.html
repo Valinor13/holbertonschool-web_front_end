@@ -11,7 +11,7 @@
             });
 
             function createSearchForm() {
-                $('body').append($('<input type="text">'), $('<input type="submit" id="submitBtn">'), $('<ul id="articles">'), $('<ul id="pagination">'));
+                $('body').append($('<input type="text">'), $('<input type="submit" id="submitBtn">'), $('<ul id="articles">'), $('<ul id="pagination" style="display: flex; flex-direction: row;">'));
                 $('#submitBtn').click(function(){
                     queryWikepedia($('input').first().val());
                 });
@@ -24,22 +24,39 @@
             }
 
             function queryWikepedia(search, offset = 0) {
+                $('#articles').html('');
                 $.ajax({
                     url: `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${search}&format=json`,
                     dataType: "jsonp",
                     type: "GET",
+                    sroffset:  `${offset}`,
                     success: function(data) {
-                                for (i = 0; i < data.query.search.length; i++) {
-                                    addNewArticle(data.query.search[i].pageid, data.query.search[i].title, data.query.search[i].snippet);
-                                    buildPagination();
-                                }
+                                $.each(data.query.search, function(index, value){ 
+                                    addNewArticle(value.pageid, value.title, value.snippet);
+                                })
+                                buildPagination(data.query.searchinfo.totalhits, 10, offset);
                             }
-                }).offset(offset);
+                });
             }
 
             function buildPagination(numberOfItems, itemsPerPage, currentOffset) {
-                $('#pagination').replaceWith('<ul id="pagination>');
-                for (i = 0; )
+                $('#pagination').html('');
+                let i = currentOffset - 10;
+                if (i < 0) {
+                    i = 0;
+                }
+                for (; i < (currentOffset + 15) || i === (numberOfItems / itemsPerPage); i++) {
+                    let pagList;
+                    if (currentOffset === i) {
+                        pagList = `<li id="pagId" value="${i}" style="cursor: pointer; margin-left: 10px; font-weight: bold; list-style: none;">${i+1}</li>`;
+                    } else {
+                        pagList = `<li id="pagId" value="${i}" style="cursor: pointer; margin-left: 10px; list-style: none;">${i+1}</li>`;
+                    }
+                    $('#pagination').append($(pagList));
+                }
+                $('#pagination li').click(function() {
+                    queryWikepedia($('input').first().val(), $(this).val());
+                })
             }
         </script>
         <title>Task 0</title>
