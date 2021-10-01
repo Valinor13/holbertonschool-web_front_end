@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+    <head>
+
+        <meta charset="utf-8" />
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script type="application/javascript">
+            const SERVER_ROOT = 'http://localhost:3000'
+
+            $(window).on("load", function() {
+                listPosts();
+                buildForm();
+            });
+
+            function addPostRow(data) {
+                $('body').append(`<p><span>Post created with id ${data.id}, title: ${data.title}, author: ${data.author}</span></p>`)
+            }
+
+            function listPosts() {
+                $.get({
+                    url: SERVER_ROOT + '/posts',
+                    dataType: "jsonp",
+                    success: function(data){
+                        data.forEach(element => {
+                            addPostRow(element);
+                        });
+                    },
+                    error: function() {
+                        alert('Server Error');
+                    }
+                })
+            }
+
+            function buildForm() {
+                let newForm = $('<form id="headerForm">')
+                newForm.append(`<div>
+                                  <label for="author">Author</label>
+                                  <input type="text" id="author">
+                                </div>
+                                <div>
+                                  <label for="title>Title</label>
+                                  <textarea id="title"></textarea>
+                                </div>
+                                <input id="submitButton" type="submit">
+                                `)
+                $('#submitButton').click(()=> {
+                    sendForm($('#author').val(), $('#title').val());
+                })
+                $('body').append(newForm);
+            }
+
+            function sendForm(author, title) {
+                $('#headerForm').after('<p id="queryNotification">About to send the query to the API</p>');
+                let postId = 11;
+                let postObj = {
+                    author: `${author}`,
+                    title: `${title}`,
+                    id: `${postId}`
+                }
+                postId += 1;
+                $.post({
+                    url: SERVER_ROOT + '/posts',
+                    data: `${postObj}`,
+                    success: function(postObj){
+                        $('#queryNotification').remove();
+                        addPostRow(postObj);
+                    },
+                    error: function() {
+                        $('#queryNotification').remove();
+                        alert('Error sending the POST query');
+                    },
+                })
+            }
+        </script>
+        <title>Task 11</title>
+        </style>
+    </head>
+
+    <body>
+
+    </body>
+
+</html>
