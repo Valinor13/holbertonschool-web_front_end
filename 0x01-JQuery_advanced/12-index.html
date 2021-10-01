@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+    <head>
+
+        <meta charset="utf-8" />
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script type="application/javascript">
+            const SERVER_ROOT = 'http://localhost:3000';
+            let postCount = 11;
+
+            $(window).on("load", function() {
+                listPosts();
+                buildForm();
+            });
+
+            function addPostRow(data) {
+                $('body').append(`<p class="postId" id="post${data.id}"><span>Post created with id ${data.id}, title: ${data.title}, author: ${data.author}</span></p>`);
+                $(`#post${data.id}`).prepend('<span>(delete)</span>').click(function () {
+                    deletePost(data.id);
+                });
+            }
+
+            function deletePost(id) {
+                $.ajax({
+                    url: SERVER_ROOT + '/posts/' + id,
+                    type: 'DELETE',
+                    headers: {"id": id},
+                    success: function() {
+                        $(`#post${id}`).remove();
+                    },
+                    error: function () {
+                        alert('Post was not deleted');
+                    }
+                })
+            }
+
+            function listPosts() {
+                $.get({
+                    url: SERVER_ROOT + '/posts',
+                    dataType: "jsonp",
+                    success: function(data){
+                        data.forEach(element => {
+                            addPostRow(element);
+                        });
+                    },
+                    error: function() {
+                        alert('Server Error');
+                    }
+                })
+            }
+
+            function buildForm() {
+                let newForm = $('<form id="headerForm">')
+                $('body').append(newForm);
+                newForm.append('<div><label for="author">Author</label><input type="text" id="author"></div>');
+                newForm.append('<div><label for="title">Title</label><textarea id="title"></textarea></div>');
+                newForm.append('<input id="submitId" type="submit">');
+                $('#submitId').click(function() {
+                    sendForm($('#author').val(), $('#title').val());
+                })
+            }
+
+            function sendForm(author, title) {
+                $('#headerForm').after('<p id="queryNotification">About to send the query to the API</p>');
+                let postObj = {
+                    author: author,
+                    title: title,
+                    id: postCount,
+                }
+                $.ajax({
+                    url: SERVER_ROOT + '/posts',
+                    type: 'POST',
+                    data: postObj,
+                    success: function(postObj){
+                        addPostRow(postObj);
+                    },
+                    error: function() {
+                        alert('Error sending the POST query');
+                    },
+                })
+                $('#queryNotification').remove();
+                postCount += 1;
+                return postCount;
+            }
+        </script>
+        <title>Task 12</title>
+        </style>
+    </head>
+
+    <body>
+
+    </body>
+
+</html>
