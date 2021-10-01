@@ -6,7 +6,8 @@
         <meta charset="utf-8" />
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script type="application/javascript">
-            const SERVER_ROOT = 'http://localhost:3000'
+            const SERVER_ROOT = 'http://localhost:3000';
+            let postCount = 11;
 
             $(window).on("load", function() {
                 listPosts();
@@ -34,43 +35,36 @@
 
             function buildForm() {
                 let newForm = $('<form id="headerForm">')
-                newForm.append(`<div>
-                                  <label for="author">Author</label>
-                                  <input type="text" id="author">
-                                </div>
-                                <div>
-                                  <label for="title>Title</label>
-                                  <textarea id="title"></textarea>
-                                </div>
-                                <input id="submitButton" type="submit">
-                                `)
-                $('#submitButton').click(()=> {
+                $('body').append(newForm);
+                newForm.append('<div><label for="author">Author</label><input type="text" id="author"></div>');
+                newForm.append('<div><label for="title">Title</label><textarea id="title"></textarea></div>');
+                newForm.append('<input id="submitId" type="submit">');
+                $('#submitId').click(function() {
                     sendForm($('#author').val(), $('#title').val());
                 })
-                $('body').append(newForm);
             }
 
             function sendForm(author, title) {
                 $('#headerForm').after('<p id="queryNotification">About to send the query to the API</p>');
-                let postId = 11;
                 let postObj = {
-                    author: `${author}`,
-                    title: `${title}`,
-                    id: `${postId}`
+                    author: author,
+                    title: title,
+                    id: postCount,
                 }
-                postId += 1;
-                $.post({
+                $.ajax({
                     url: SERVER_ROOT + '/posts',
-                    data: `${postObj}`,
+                    type: 'POST',
+                    data: postObj,
                     success: function(postObj){
-                        $('#queryNotification').remove();
                         addPostRow(postObj);
                     },
                     error: function() {
-                        $('#queryNotification').remove();
                         alert('Error sending the POST query');
                     },
                 })
+                $('#queryNotification').remove();
+                postCount += 1;
+                return postCount;
             }
         </script>
         <title>Task 11</title>
