@@ -1,0 +1,64 @@
+{
+    "posts": [
+      {
+        "id": 1,
+        "title": "json-server",
+        "author": "typicode"
+      },
+      {
+        "title": "Two",
+        "author": "two",
+        "id": 2
+      },
+      {
+        "title": "Three",
+        "author": "three",
+        "id": 3
+      },
+      {
+        "title": "Four",
+        "author": "four",
+        "id": 4
+      },
+      {
+        "title": "Five",
+        "author": "five",
+        "id": 5
+      },
+      {
+        "title": "Six",
+        "author": "six",
+        "id": 6
+      },
+      {
+        "title": "Seven",
+        "author": "seven",
+        "id": 7
+      },
+      {
+        "title": "Eight",
+        "author": "Eight",
+        "id": 8
+      },
+      {
+        "title": "Nine",
+        "author": "nine",
+        "id": 9
+      },
+      {
+        "title": "Ten",
+        "author": "ten",
+        "id": 10
+      }
+    ],
+    "comments": [
+      {
+        "id": 1,
+        "body": "some booody",
+        "postId": 1
+      }
+    ],
+    "profile": {
+      "name": "typicode"
+    }
+  }

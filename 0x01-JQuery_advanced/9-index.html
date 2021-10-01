@@ -2,7 +2,6 @@
 <html lang="en" dir="ltr">
 
     <head>
-
         <meta charset="utf-8" />
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script type="application/javascript">
@@ -13,7 +12,7 @@
             function createSearchForm() {
                 $('body').append($('<input type="text">'), $('<input type="submit" id="submitBtn">'), $('<ul id="articles">'), $('<ul id="pagination" style="display: flex; flex-direction: row;">'));
                 $('#submitBtn').click(function(){
-                    queryWikepedia($('input').first().val());
+                    queryWikipedia($('input').first().val());
                 });
             }
 
@@ -23,8 +22,7 @@
                 $('#articles').append(articleList);
             }
 
-            function queryWikepedia(search, offset = 0) {
-                $('#articles').html('');
+            function queryWikipedia(search, offset = 0) {
                 displayLoading(true);
                 $.ajax({
                     url: `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${search}&format=json`,
@@ -32,6 +30,7 @@
                     type: "GET",
                     sroffset:  `${offset}`,
                     success: function(data) {
+                                $('#articles').empty();
                                 $.each(data.query.search, function(index, value){ 
                                     addNewArticle(value.pageid, value.title, value.snippet);
                                 })
@@ -42,39 +41,30 @@
             }
 
             function buildPagination(numberOfItems, itemsPerPage, currentOffset) {
-                $('#pagination').html('');
-                let i = currentOffset - 10;
-                if (i < 0) {
-                    i = 0;
+                $('#pagination').empty();
+                let currentPage = currentOffset / itemsPerPage;
+                let totalPages = Math.ceil(numberOfItems / itemsPerPage)
+                for (let i = 0; i <= totalPages; i++) {
+                    $('#pagination').append($(`<li>`).css('cursor', 'pointer').css('margin-left', '10px').css('font-weight', currentPage === i ? 'bold' : 'normal').css('list-style', 'none').text(i+1).click(()=> {
+                        queryWikipedia($('input').first().val(), i * itemsPerPage);
+                    }));
                 }
-                for (; i < (currentOffset + 15) || i === (numberOfItems / itemsPerPage); i++) {
-                    let pagList;
-                    if (currentOffset === i) {
-                        pagList = `<li id="pagId" value="${i}" style="cursor: pointer; margin-left: 10px; font-weight: bold; list-style: none;">${i+1}</li>`;
-                    } else {
-                        pagList = `<li id="pagId" value="${i}" style="cursor: pointer; margin-left: 10px; list-style: none;">${i+1}</li>`;
-                    }
-                    $('#pagination').append($(pagList));
-                }
-                $('#pagination li').click(function() {
-                    queryWikepedia($('input').first().val(), $(this).val());
-                })
             }
 
             function displayLoading(loading) {
-                if (loading) {
-                    $('ul').wrap(`<div class="loading"></div>`);
+                if (loading === true) {
+                    $('#articles').wrap('<div class="loading"></div>');
                 } else {
-                    $('ul').unwrap();
+                    $('#articles').unwrap();
                 }
             }
         </script>
-        <title>Task 9</title>
         <style type="text/css">
             .loading {
                 opacity: 0.2;
             }
         </style>
+        <title>Task 9</title>
     </head>
 
     <body>
