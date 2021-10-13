@@ -7,7 +7,6 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script type="application/javascript">
             const SERVER_ROOT = 'http://localhost:3000';
-            let postCount = 11;
 
             $(window).on("load", function() {
                 listPosts();
@@ -34,12 +33,13 @@
             }
 
             function buildForm() {
-                let newForm = $('<form id="headerForm">')
+                let newForm = $('<div id="headerForm">')
                 $('body').append(newForm);
                 newForm.append('<div><label for="author">Author</label><input type="text" id="author"></div>');
                 newForm.append('<div><label for="title">Title</label><textarea id="title"></textarea></div>');
-                newForm.append('<input id="submitId" type="submit">');
-                $('#submitId').click(function() {
+                newForm.append('<button id="submitId">');
+                $('#submitId').click(function(event) {
+                    // event.preventDefault();
                     sendForm($('#author').val(), $('#title').val());
                 })
             }
@@ -49,7 +49,6 @@
                 let postObj = {
                     author: author,
                     title: title,
-                    id: postCount,
                 }
                 $.ajax({
                     url: SERVER_ROOT + '/posts',
@@ -63,8 +62,6 @@
                     },
                 })
                 $('#queryNotification').remove();
-                postCount += 1;
-                return postCount;
             }
         </script>
         <title>Task 11</title>

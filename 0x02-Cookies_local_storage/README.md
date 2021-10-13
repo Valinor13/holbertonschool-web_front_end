@@ -1,0 +1,1 @@
+This is the cookies/local storage project located in the Holberton web front end respository.
