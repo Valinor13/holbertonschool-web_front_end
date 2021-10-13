@@ -4,27 +4,32 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
   <script src="src/index.js"></script>
   <script type="text/javascript">
+    
     function setCookies() {
-		document.cookie = `firstname=${document.getElementById("firstname").value}`;
-		document.cookie = `email=${document.getElementById("email").value}`;
-	}
+      document.cookie = encodeURIComponent(`firstname`) + '=' + encodeURIComponent(`${document.getElementById("firstname").value}`);
+		  document.cookie = encodeURIComponent(`email`) + '=' + encodeURIComponent(`${document.getElementById("email").value}`);
+	  }
 
-	function showCookies() {
-		const cookiesP = document.createElement("p");
-		cookiesP.innerHTML = `Cookies: ${document.cookie}`;
-		document.querySelector("body").append(cookiesP);
-	}
+	  function showCookies() {
+      const cookiesP = document.createElement("p");
+      cookiesP.innerHTML = `Cookies: ${decodeURIComponent(document.cookie)}`;
+      document.querySelector("body").append(cookiesP);
+    }
+
   </script>
   <title>Cookies local storage</title>
 </head>
 
 <body>
-    <input type="text" id="firstname" name="firstname">
-    <input type="text" id="email" name="email">
-    <button onclick="setCookies()">Log me in</button>
+    <h1>Login to the website</h1>
+    <div>
+      <input type="text" id="firstname" name="firstname">
+      <input type="text" id="email" name="email">
+      <button onclick="setCookies()">Log me in</button>
+    </div>
+    <h1>Cookies</h1>
     <button onclick="showCookies()">Show the cookies</button>
 </body>
 <footer>
