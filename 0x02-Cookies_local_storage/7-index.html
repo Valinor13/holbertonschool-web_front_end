@@ -1,0 +1,100 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="src/index.js"></script>
+  <script type="text/javascript">
+    let availableItems = ['Shampoo', 'Soap', 'Sponge', 'Water'];
+    window.onload = () => {
+        if (sessionStorage) {
+            createStore();
+            displayCart();
+        } else {
+            alert('Sorry, your browser does not support Web storage. Try again with a better one');
+        }
+    }
+
+    function getCartFromStorage() {
+        if (sessionStorage.length > 1) {
+            return JSON.parse(sessionStorage.getItem('cart'));
+        } else {
+            return {};
+        }
+    }
+
+    function addItemToCart(item) {
+        if (!sessionStorage.getItem(item)) {
+            sessionStorage.setItem(item, true);
+            sessionStorage.setItem(item + 'Quantity', '1');
+        } else {
+            let count = Number(sessionStorage.getItem(item + 'Quantity')) + 1;
+            sessionStorage.setItem(item + 'Quantity', count);
+        }
+        let cart = {};
+        Object.keys(sessionStorage).forEach((key) => {
+            if (key !== 'IsThisFirstTime_Log_From_LiveServer') {
+                cart[key] = sessionStorage[key];
+            }
+        })
+        sessionStorage.setItem('cart', cart);
+        displayCart();
+    }
+
+    function removeItemfromCart(item) {
+        sessionStorage.removeItem(item);
+        let cart = {};
+        Object.keys(sessionStorage).forEach((key) => {
+            if (key !== 'IsThisFirstTime_Log_From_LiveServer') {
+                cart.key = sessionStorage.getItem(key);
+            }
+        })
+        sessionStorage.setItem('cart', cart);
+        displayCart();
+    }
+
+    function clearCart() {
+        sessionStorage.clear();
+        displayCart();
+    }
+
+    function createStore() {
+        let fullList = document.createElement('h2');
+        fullList.appendChild(document.createTextNode('Available products:'));
+        document.body.appendChild(fullList);
+        let cartList = document.createElement('ul');
+        for (let i = 0; i < availableItems.length; i++) {
+            let item = document.createElement('li');
+            item.style.cursor = 'pointer';
+            item.appendChild(document.createTextNode(availableItems[i]));
+            item.onclick = () => {
+                addItemToCart(availableItems[i]);
+            }
+            cartList.appendChild(item);
+        }
+        document.body.appendChild(cartList);
+    }
+
+    function displayCart() {
+        let cartList = document.createElement('h2');
+        cartList.appendChild(document.createTextNode('Your cart:'));
+        let cartDiv = document.createElement('div');
+        document.body.appendChild(cartList);
+        updateCart();
+    }
+
+    function updateCart() {
+
+    }
+  </script>
+  <title>Cookies local storage</title>
+</head>
+
+<body>
+
+</body>
+<footer>
+
+</footer>
+</html>
