@@ -1,0 +1,81 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+  <script src="src/index.js"></script>
+  <script type="text/javascript">
+
+    window.onload = function() {
+        document.querySelector("#loginButton").addEventListener("click", function() {
+            setCookiesAndShowWelcomeMessage();
+        })
+        
+    };
+
+    function setCookiesAndShowWelcomeMessage() {
+        Cookies.set('firstname', document.getElementById("firstname").value, { expires: 10 });
+        Cookies.set('email', document.getElementById("email").value, { expires: 10 });
+        showWelcomeMessageOrForm();
+    }
+
+    function showCookies() {
+      const cookiesP = document.createElement("p");
+      cookiesP.innerHTML = `Email: ${Cookies.get('email')} - Firstname: ${Cookies.get('firstname')}`;
+      document.querySelector("body").append(cookiesP);
+    }
+
+    function showForm() {
+        document.getElementById("loginDisplay").style.display = 'block';
+        document.getElementById("welcomeDisplay").style.display = 'none';
+    }
+
+    function hideForm() {
+        let welcomeHeader = document.getElementById("welcomeDisplay");
+        welcomeHeader.innerHTML = `<h1 id="welcomeHeader">Welcome: ${Cookies.get('firstname')} <span id="logoutButton" style="font-style: italic; font-weight: normal; cursor: pointer;">(logout)</span></h1>`;
+        document.querySelector("#logoutButton").addEventListener("click", function() {
+            deleteCookiesAndShowForm();
+        })
+        document.getElementById("loginDisplay").style.display = 'none';
+        document.getElementById("welcomeDisplay").style.display = 'block';
+    }
+
+    function deleteCookiesAndShowForm() {
+        Cookies.remove('firstname');
+        Cookies.remove('email');
+        showForm();
+    }
+
+    function showWelcomeMessageOrForm() {
+        if (!document.cookie) {
+            showForm();
+        } else {
+            hideForm();
+        }
+    }
+
+  </script>
+  <title>Cookies local storage</title>
+</head>
+
+<body>
+  <div id="loginDisplay">
+    <h2>Login to the website</h2>
+    <div>
+      <input type="text" id="firstname" name="firstname">
+      <input type="text" id="email" name="email">
+      <button id="loginButton">Log me in</button>
+    </div>
+  </div>
+  <div id="welcomeDisplay" style="display: none;">
+      
+  </div>
+  <h1>Cookies</h1>
+  <button onclick="showCookies()">Show the cookies</button>
+</body>
+<footer>
+
+</footer>
+</html>
